@@ -32,3 +32,36 @@ body>div>h1{
     border-radius: 20px;
     height: auto;
 }
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1050;
+    opacity: 0;
+    -webkit-transition: opacity 200ms ease-in;
+    -moz-transition: opacity 200ms ease-in;
+    transition: opacity 200ms ease-in;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+}
+.modal:target {
+    opacity: 1;
+    pointer-events: auto;
+    overflow-y: auto;
+}
+
+.modal-body {
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 15px;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}

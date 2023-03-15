@@ -49,8 +49,12 @@ Vue.component('column1', {
 
 Vue.component('createcard',{
     template:`
+<section>
+    <a href="#openModal" class="btn btnModal">Create card</a>
+    <div id="openModal" class="modal">
+       <div class="modal-body">    
        <div class="form">
-         <h2>Создание задачи</h2>
+         <h2>Создание задачи <a href="#close" title="Close" class="close">×</a></h2>
         <form @submit.prevent="onSubmit">
             <label for="title">Заголовок</label>
             <input id="title" v-model="title" type="text" required maxlength="30">
@@ -61,6 +65,9 @@ Vue.component('createcard',{
             <button type="submit">Создать задачу</button>
         </form>
     </div>
+    </div>
+    </div>
+    </section>
     `,
     data(){
         return{
