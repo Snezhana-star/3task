@@ -1,6 +1,8 @@
 body{
     background-color: darkkhaki;}
-
+body>div>h1{
+    text-align: center;
+ }
 .form{
     background-color: white;
     width: 300px;
@@ -11,10 +13,22 @@ body{
     border-radius: 20px;
     padding: 10px;
 }
+.form>form{
+    padding: 0px 10px;
+}
 .form>form>input{
-    margin: 0px 0px 5px 0px;
+    margin: 0px 0px 20px 0px;
     width: 280px;
 }
-body>div>h1{
-    text-align: center;
+
+ .form>form>textarea{
+   resize: none;
+   width: 280px;
  }
+ .col{
+    width: 300px;
+    background-color: white;
+    /* margin-left: 50px; */
+    border-radius: 20px;
+    height: auto;
+}
