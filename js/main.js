@@ -1,27 +1,26 @@
 Vue.component('createcard',{
     template:`
        <div class="form">
-         <h2>Создание заметки</h2>
-
+         <h2>Создание задачи</h2>
         <form @submit.prevent="onSubmit">
-            <input id="title" required v-model="title" type="text" placeholder="Название"><br>
-            <input required id="subtask1" v-model="subtask1" placeholder="Задание"><br>
-            <input required id="subtask2" v-model="subtask2" maxlength="30" placeholder="Задание"><br>
-            <input required id="subtask3" v-model="subtask3" maxlength="30" placeholder="Задание"><br>
-            <input  id="subtask4" v-model="subtask4" maxlength="30" placeholder="Задание"><br>
-            <input  id="subtask5" v-model="subtask5" maxlength="30" placeholder="Задание"><br>
-            <button type="submit">Создать заметку</button>
+            <label for="title">Заголовок</label>
+            <input id="title" v-model="title" type="text" required maxlength="30">
+            <label for="description">Задача</label><br>
+            <textarea id="description" v-model="description" rows="5" columns="10" required maxlength="60"></textarea><br>
+            <label for="startdate">Дата создания: </label>
+            <input required  type="date" id="startdate" name="startdate" v-model="startdate" placeholder="дд.мм.гггг"/>
+            <label for="finishdate">Дэдлайн: </label>
+            <input required  type="date" id="finishdate" name="finishdate" v-model="finishdate" placeholder="дд.мм.гггг"/>
+            <button type="submit">Создать задачу</button>
         </form>
     </div>
     `,
     data(){
         return{
             title: null,
-            subtask1: null,
-            subtask2: null,
-            subtask3: null,
-            subtask4: null,
-            subtask5: null,
+            description: null,
+            startdate: null,
+            finishdate: null,
             errors: [],
         }
     },
@@ -29,21 +28,16 @@ Vue.component('createcard',{
         onSubmit() {
             let card = {
                 title: this.title,
-                subtasks: [{title: this.subtask1, completed: false},
-                    {title: this.subtask2, completed: false},
-                    {title: this.subtask3, completed: false},
-                    {title: this.subtask4, completed: false},
-                    {title: this.subtask5, completed: false}],
-                date: null,
-                status: 0
+                description: this.description,
+                startdate: new Date().toLocaleDateString().split('.').reverse().join('-'),
+                finishdate: this.finishdate,
+                
             }
             eventBus.$emit('card-submitted', card)
             this.title = null
-            this.subtask1 = null
-            this.subtask2 = null
-            this.subtask3 = null
-            this.subtask4 = null
-            this.subtask5 = null
+            this.description = null
+            this.startdate = null
+            this.finishdate = null
         },
     }
 })
@@ -53,6 +47,6 @@ Vue.component('createcard',{
 let app = new Vue({
     el: '#app',
     data: {
-        name: 'Заметки'
+        name: 'Kanban доска'
     }
 })
