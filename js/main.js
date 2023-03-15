@@ -1,22 +1,34 @@
 let eventBus = new Vue()
-Vue.component('columns', {
+
+Vue.component('column1', { 
     template: `
-    <div>
-    <h2 class="error" v-for="error in errors">{{error}}</h2>
-  <div class="cont1">
-  <createcard></createcard>
-    <div class="col">
-    <ul>
-    <li v-for="card in column1"><p>{{card.title}}</p>
-    <ul >
-    <li v-for="t in card.subtasks"  v-if="t.title !=null">
-        <input @click="Status1(card,t)" type="checkbox" >
-        <p :class="{text:t.completed}">{{t.title}}</p>
-    </li>
-    </ul>
-    </li>      
-    </ul>    
-    </div>
+        <div>
+            <h2>Запланированные задачи</h2>
+            <li v-for="card in column1">
+                <a @click="deleteCard(card)">Удалить</a>   <a @click="card.editB = true">Изменить</a> <br>
+                <p class="card-title">{{card.title}}</p>
+                <ul>
+                    <li >Задание: {{card.description}}</li>
+                    <li >Дата создания: {{ card.date }}</li>
+                    <li >Дэдлайн: {{card.finishdate}}</li>
+                    <li v-if="card.edit != null">Последнее изменение: {{ card.edit}}</li>
+                    <li v-if="card.editB">
+                        <form @submit.prevent="updateTask(card)">
+                            <p>Новое название: 
+                                <input type="text" v-model="card.title" maxlength="30">
+                            </p>
+                            <p>Новая задача: 
+                                <textarea v-model="card.description" cols="20" rows="5"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value="Edit">
+                            </p>
+                        </form>
+                    </li>
+                </ul>
+                <a @click="nextcol(card)">Следующая колонка</a>
+            </div>
+        </div>
     `,
 })
 
