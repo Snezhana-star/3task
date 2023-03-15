@@ -1,5 +1,58 @@
 let eventBus = new Vue()
 
+Vue.component('col2', {
+    template: `
+        <div class="col">
+            <h2>Tasks in progress</h2>
+            <li class="cards" style="background-color: lightblue" v-for="card in column2">
+                <a @click="card.editB = true">Edit</a> <br>
+                <p class="card-title">{{card.title}}</p>
+                <ul>
+                    <li class="tasks">Description: {{card.description}}</li>
+                    <li class="tasks">Date of creation:
+                    {{ card.date }}</li>
+                    <li class="tasks">Deadline: {{card.deadline}}</li>
+                    <li class="tasks" v-if="card.reason != null">Reason of transfer: {{ card.reason }}</li>
+                    <li class="tasks" v-if="card.edit != null">Last change: {{ card.edit}}</li>
+                    <li class="tasks" v-if="card.editB">
+                        <form @submit.prevent="updateTask(card)">
+                            <p>New title: 
+                                <input type="text" v-model="card.title" maxlength="30" placeholder="Заголовок">
+                            </p>
+                            <p>New description: 
+                                <textarea v-model="card.description" cols="20" rows="5"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value="Edit">
+                            </p>
+                        </form>
+                    </li>
+                </ul>
+                <a @click="nextcol(card)">Next Column</a>
+            </div>
+        </div>
+    `,
+    props: {
+        column2: {
+            type: Array,
+        },
+        card: {
+            type: Object
+        }
+    },
+    methods: {
+        nextcol(card) {
+            this.column2.splice(this.column2.indexOf(card), 1)
+            eventBus.$emit('addColumn3', card)
+        },
+        updateTask(card){
+            card.edit = new Date().toLocaleString()
+            card.editB = false
+            this.column2.push(card)
+            this.column2.splice(this.column2.indexOf(card), 1)
+        }
+    }
+})
 Vue.component('column1', { 
     template: `
         <div class="col">
