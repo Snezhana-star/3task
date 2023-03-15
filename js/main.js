@@ -26,17 +26,31 @@ Vue.component('column1', {
                         </form>
                     </li>
                 </ul>
-                <a @click="nextcolumn(card)">Следующая колонка</a>
+<!--                <a @click="nextcolumn(card)">Следующая колонка</a>--></li>
             </div>
         </div>
     `,
-    methods: {
-        nextcolumn(card){
-            this.column1.splice(this.column1.indexOf(card),1)
-            eventBus.$emit('addColumn2', card)
+    props: {
+        column1: {
+            type: Array,
         },
+        column2: {
+            type: Array,
+        },
+        card: {
+            type: Object
+        },
+        errors: {
+            type: Array
+        }
+    },
+    methods: {
+        // nextcolumn(card){
+        //     this.column1.splice(this.column1.indexOf(card),1)
+        //     eventBus.$emit('addColumn2', card)
+        // },
         deleteCard(card){
-            this.column1.splice(this.column1,indexOf(card),1)
+            this.column1.splice(this.column1.indexOf(card),1)
         },
         updateCard(card){
             card.editB = false
@@ -44,13 +58,13 @@ Vue.component('column1', {
             this.column1.splice(this.column1.indexOf(card), 1)
             card.edit = new Date().toLocaleString()
         }
-    }
+    },
 })
 
 Vue.component('createcard',{
     template:`
 <section>
-    <a href="#openModal" class="btn btnModal">Create card</a>
+    <a href="#openModal" class="btnModal">Создать задачу</a>
     <div id="openModal" class="modal">
        <div class="modal-body">    
        <div class="form">
