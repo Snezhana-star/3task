@@ -22,23 +22,43 @@ Vue.component('cols', {
         }
     },
     methods: {
-
+        saveColumn1(){
+            localStorage.setItem('column1', JSON.stringify(this.column1));
+        },
+        saveColumn2(){
+            localStorage.setItem('column2', JSON.stringify(this.column2));
+        },
+        saveColumn3(){
+            localStorage.setItem('column3', JSON.stringify(this.column3));
+        },
+        saveColumn4(){
+            localStorage.setItem('column4', JSON.stringify(this.column4));
+        },
     },
+
     mounted() {
+        this.column1 = JSON.parse(localStorage.getItem("column1")) || [];
+        this.column2 = JSON.parse(localStorage.getItem("column2")) || [];
+        this.column3 = JSON.parse(localStorage.getItem("column3")) || [];
+        this.column4 = JSON.parse(localStorage.getItem("column4")) || [];
         eventBus.$on('addColumn1', card => {
             this.column1.push(card)
+            this.saveColumn1()
         })
         eventBus.$on('addColumn2', card => {
             this.column2.push(card)
+            this.saveColumn2()
         })
         eventBus.$on('addColumn3', card => {
             this.column3.push(card)
+            this.saveColumn3()
         })
         eventBus.$on('addColumn4', card => {
             this.column4.push(card)
             if (card.date > card.finishdate) {
                 card.current = false
             }
+            this.saveColumn4()
         })
     },
     computed: {
