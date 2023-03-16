@@ -4,12 +4,12 @@ let eventBus = new Vue()
 Vue.component('cols', {
     template:`
     <div id="cols">
-        <newcard></newcard>
-        <div class="cols__content">
-            <col1 :column1="column1"></col1>
-            <col2 :column2="column2"></col2>
-            <col3 :column3="column3"></col3>
-            <col4 :column4="column4"></col4>
+        <createcard></createcard>
+        <div>
+            <col1></col1>
+            <col2></col2>
+            <col3></col3>
+            <col4></col4>
         </div>
     </div>
 `,
@@ -36,7 +36,7 @@ Vue.component('cols', {
         })
         eventBus.$on('addColumn4', card => {
             this.column4.push(card)
-            if (card.date > card.deadline) {
+            if (card.date > card.finishdate) {
                 card.current = false
             }
         })
@@ -49,17 +49,16 @@ Vue.component('cols', {
 Vue.component('col4', {
     template: `
         <div class="col">
-            <h2>Completed tasks</h2>
-            <div class="cards" style="background-color: lightgreen" v-for="card in column4">
+            <h2>Выполненные задачи</h2>
+            <div v-for="card in column4">
                 <p class="card-title">{{card.title}}</p>
                 <ul>
-                    <li class="tasks">Description: {{card.description}}</li>
-                    <li class="tasks">Date of creation:
-                    {{ card.date }}</li>
-                    <li class="tasks">Deadline: {{card.deadline}}</li>
+                    <li class="tasks">Задача: {{card.description}}</li>
+                    <li class="tasks">Дата создания: {{ card.date }}</li>
+                    <li class="tasks">Дэдлайн: {{card.deadline}}</li>
                     
-                    <li class="tasks" v-if="card.current"> Сompleted on time</li>
-                    <li class="tasks" v-else>Not completed on time</li>
+                    <li class="tasks" v-if="card.current"> Выполнено вовремя</li>
+                    <li class="tasks" v-else>Выполнено не вовремя</li>
                 </ul>
             </div>
         </div>
@@ -72,46 +71,38 @@ Vue.component('col4', {
             type: Object
         }
     },
-    methods: {
-
-    },
-
-    computed:  {
-
-    },
 })
 
 
 Vue.component('col3', {
     template: `
         <div class="col"> 
-            <h2>Testing</h2>
-            <li class="cards" style="background-color: #f5f287" v-for="card in column3" >
-                <a @click="card.editB = true">Edit</a> <br>
+            <h2>Тестирование</h2>
+            <li v-for="card in column3" >
+                <a @click="card.editB = true">Изменить</a> <br>
                 <p class="card-title">{{card.title}}</p>
                 <ul>
-                    <li class="tasks">Description: {{card.description}}</li>
-                    <li class="tasks">Date of creation:
-                    {{ card.date }}</li>
-                    <li class="tasks">Deadline: {{card.deadline}}</li>
-                    <li class="tasks" v-if="card.reason != null">Reason of transfer: {{ card.reason }}</li>
-                    <li class="tasks" v-if="card.edit != null">Last change: {{ card.edit}}</li>
+                    <li class="tasks">Задача: {{card.description}}</li>
+                    <li class="tasks">Дата создания: {{ card.date }}</li>
+                    <li class="tasks">Дэдлайн: {{card.finishdate}}</li>
+                    <li class="tasks" v-if="card.reason != null">Причина возврата: {{ card.reason }}</li>
+                    <li class="tasks" v-if="card.edit != null">Последнее изменение: {{ card.edit}}</li>
                     <li class="tasks" v-if="card.editB">
-                        <form @submit.prevent="updateTask(card)">
-                            <p>New title: 
-                                <input type="text" v-model="card.title" maxlength="30" placeholder="Заголовок">
+                        <form @submit.prevent="updateCard(card)">
+                            <p>Новое название: 
+                                <input type="text" v-model="card.title" maxlength="30">
                             </p>
-                            <p>New description: 
+                            <p>Новая задача: 
                                 <textarea v-model="card.description" cols="20" rows="5"></textarea>
                             </p>
                             <p>
-                                <input type="submit" value="Edit">
+                                <input type="submit" value="Изменить">
                             </p>
                         </form>
                     </li>
                     <li class="tasks" v-if="card.transfer">
                         <form @submit.prevent="lastcol(card)">
-                            <p>The reason of transfer:
+                            <p>Причина изменения:
                                 <input type="text" v-model="card.reason">
                             </p>
                             <p>
@@ -120,7 +111,7 @@ Vue.component('col3', {
                         </form>
                     </li>
                 </ul>
-                <a @click="card.transfer = true">Last Column</a>  | <a @click="nextcol(card)">Next Column</a>
+                <a @click="card.transfer = true">Предыдущая колонка</a>  | <a @click="nextcol(card)">Следующая колонка</a>
             </div>
         </div>
     `,
@@ -142,7 +133,7 @@ Vue.component('col3', {
             this.column3.splice(this.column3.indexOf(card), 1)
             eventBus.$emit('addColumn2', card)
         },
-        updateTask(card){
+        updateCard(card){
             card.edit = new Date().toLocaleString()
             card.editB = false
             this.column3.push(card)
@@ -153,23 +144,22 @@ Vue.component('col3', {
 Vue.component('col2', {
     template: `
         <div class="col">
-            <h2>Tasks in progress</h2>
-            <li class="cards" style="background-color: lightblue" v-for="card in column2">
-                <a @click="card.editB = true">Edit</a> <br>
+            <h2>Задачи в работе</h2>
+            <li v-for="card in column2">
+                <a @click="card.editB = true">Изменить</a> <br>
                 <p class="card-title">{{card.title}}</p>
                 <ul>
-                    <li class="tasks">Description: {{card.description}}</li>
-                    <li class="tasks">Date of creation:
-                    {{ card.date }}</li>
-                    <li class="tasks">Deadline: {{card.deadline}}</li>
-                    <li class="tasks" v-if="card.reason != null">Reason of transfer: {{ card.reason }}</li>
-                    <li class="tasks" v-if="card.edit != null">Last change: {{ card.edit}}</li>
+                    <li class="tasks">Задача {{card.description}}</li>
+                    <li class="tasks">Дата создания: {{ card.date }}</li>
+                    <li class="tasks">Дэдлайн: {{card.finishdate}}</li>
+                    <li class="tasks" v-if="card.reason != null">Причина возврата: {{ card.reason }}</li>
+                    <li class="tasks" v-if="card.edit != null">Последнее изменение: {{ card.edit}}</li>
                     <li class="tasks" v-if="card.editB">
-                        <form @submit.prevent="updateTask(card)">
-                            <p>New title: 
-                                <input type="text" v-model="card.title" maxlength="30" placeholder="Заголовок">
+                        <form @submit.prevent="updateCard(card)">
+                            <p>Новое название: 
+                                <input type="text" v-model="card.title" maxlength="30">
                             </p>
-                            <p>New description: 
+                            <p>Новая задача: 
                                 <textarea v-model="card.description" cols="20" rows="5"></textarea>
                             </p>
                             <p>
@@ -178,7 +168,7 @@ Vue.component('col2', {
                         </form>
                     </li>
                 </ul>
-                <a @click="nextcol(card)">Next Column</a>
+                <a @click="nextcol(card)">Следующая колонка</a>
             </div>
         </div>
     `,
@@ -195,7 +185,7 @@ Vue.component('col2', {
             this.column2.splice(this.column2.indexOf(card), 1)
             eventBus.$emit('addColumn3', card)
         },
-        updateTask(card){
+        updateCard(card){
             card.edit = new Date().toLocaleString()
             card.editB = false
             this.column2.push(card)
@@ -203,7 +193,7 @@ Vue.component('col2', {
         }
     }
 })
-Vue.component('column1', { 
+Vue.component('col1', {
     template: `
         <div class="col">
             <h2>Запланированные задачи</h2>
@@ -303,6 +293,10 @@ Vue.component('createcard',{
                 finishdate: this.finishdate,
                 edit: null,
                 editB:null,
+                reason: null,
+                transfer: false,
+                comdate: null,
+                current: true,
                 
             }
             eventBus.$emit('card-submitted', card)
