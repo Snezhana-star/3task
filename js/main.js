@@ -35,6 +35,12 @@ Vue.component('cols', {
             localStorage.setItem('column4', JSON.stringify(this.column4));
         },
     },
+    updated(){
+        this.saveColumn1()
+        this.saveColumn2()
+        this.saveColumn3()
+        this.saveColumn4()
+    },
 
     mounted() {
         this.column1 = JSON.parse(localStorage.getItem("column1")) || [];
