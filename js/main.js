@@ -1,5 +1,87 @@
 let eventBus = new Vue()
 
+
+Vue.component('cols', {
+    template:`
+    <div id="cols">
+        <newcard></newcard>
+        <div class="cols__content">
+            <col1 :column1="column1"></col1>
+            <col2 :column2="column2"></col2>
+            <col3 :column3="column3"></col3>
+            <col4 :column4="column4"></col4>
+        </div>
+    </div>
+`,
+    data() {
+        return {
+            column1: [],
+            column2: [],
+            column3: [],
+            column4: [],
+        }
+    },
+    methods: {
+
+    },
+    mounted() {
+        eventBus.$on('addColumn1', card => {
+            this.column1.push(card)
+        })
+        eventBus.$on('addColumn2', card => {
+            this.column2.push(card)
+        })
+        eventBus.$on('addColumn3', card => {
+            this.column3.push(card)
+        })
+        eventBus.$on('addColumn4', card => {
+            this.column4.push(card)
+            if (card.date > card.deadline) {
+                card.current = false
+            }
+        })
+    },
+    computed: {
+
+    }
+})
+
+Vue.component('col4', {
+    template: `
+        <div class="col">
+            <h2>Completed tasks</h2>
+            <div class="cards" style="background-color: lightgreen" v-for="card in column4">
+                <p class="card-title">{{card.title}}</p>
+                <ul>
+                    <li class="tasks">Description: {{card.description}}</li>
+                    <li class="tasks">Date of creation:
+                    {{ card.date }}</li>
+                    <li class="tasks">Deadline: {{card.deadline}}</li>
+                    
+                    <li class="tasks" v-if="card.current"> Сompleted on time</li>
+                    <li class="tasks" v-else>Not completed on time</li>
+                </ul>
+            </div>
+        </div>
+    `,
+    props: {
+        column4: {
+            type: Array,
+        },
+        card: {
+            type: Object
+        }
+    },
+    methods: {
+
+    },
+
+    computed:  {
+
+    },
+})
+
+
 Vue.component('col3', {
     template: `
         <div class="col"> 
