@@ -6,7 +6,7 @@ Vue.component('cols', {
     <div id="cols">
         <createcard></createcard>
         <div class="column">
-            <col1 :column1="column1" ></col1>
+            <col1 :column1="column1"></col1>
             <col2 :column2="column2"></col2>
             <col3 :column3="column3"></col3>
             <col4 :column4="column4"></col4>
@@ -53,12 +53,12 @@ Vue.component('col4', {
             <li v-for="card in column4">
                 <p>{{card.title}}</p>
                 <ul>
-                    <li class="tasks"><bЗадача: {{card.description}}</li>
-                    <li class="tasks">Дата создания: {{ card.date }}</li>
-                    <li class="tasks">Дэдлайн: {{card.finishdate}}</li>
+                    <li><b>Задача:</b> {{card.description}}</li>
+                    <li><b>Дата создания:</b>{{ card.date }}</li>
+                    <li><b>Дэдлайн:</b> {{card.finishdate}}</li>
                     
-                    <li class="tasks" v-if="card.current"> Выполнено вовремя</li>
-                    <li class="tasks" v-else>Выполнено не вовремя</li>
+                    <li class="tasks1" v-if="card.current"> Выполнено вовремя</li>
+                    <li class="tasks2" v-else>Выполнено не вовремя</li>
                 </ul>
             </li>
         </div>
@@ -101,7 +101,7 @@ Vue.component('col3', {
                     </li>
                     <li class="tasks" v-if="card.transfer">
                         <form @submit.prevent="lastcol(card)">
-                            <p><b>Причина изменения:</b>
+                            <p><b>Причина возврата:</b>
                                 <input type="text" v-model="card.reason">
                             </p>
                             <p>
@@ -110,8 +110,9 @@ Vue.component('col3', {
                         </form>
                     </li>
                 </ul>
-                <a @click="card.editB = true">Изменить</a> <br>
-                <a @click="card.transfer = true">Предыдущая колонка</a>  | <a @click="nextcol(card)">Следующая колонка</a></li>
+                <div class="change2">
+                <a @click="card.transfer = true">&#9668;</a> <a @click="card.editB = true">&#9998;</a> <a @click="nextcol(card)">&#9658;</a></div>
+                </li>
             </div>
         </div>
     `,
@@ -141,6 +142,7 @@ Vue.component('col3', {
         }
     }
 })
+
 Vue.component('col2', {
     template: `
         <div class="col">
@@ -167,8 +169,10 @@ Vue.component('col2', {
                         </form>
                     </li>
                 </ul>
-                <a @click="card.editB = true" >Изменить</a> <br>
-                <a @click="nextcol(card)">Следующая колонка</a></li>
+                <div class="change1">
+                <a @click="card.editB = true" >&#9998;</a> <br>
+                <a @click="nextcol(card)">&#9658;</a></li>
+                </div>
             </div>
         </div>
     `,
@@ -193,6 +197,7 @@ Vue.component('col2', {
         }
     }
 })
+
 Vue.component('col1', {
     template: `
         <div class="col">
@@ -219,8 +224,8 @@ Vue.component('col1', {
                         </form>
                     </li>
                 </ul>
-                <div class="change"><a @click="deleteCard(card)">Удалить</a>   <a @click="card.editB = true">Изменить</a> </div>
-               <a @click="nextcol(card)">Следующая колонка</a></li>
+                <div class="change"><a @click="deleteCard(card)">&#10006;</a>   <a @click="card.editB = true">&#9998;</a> <a @click="nextcol(card)">&#9658;</a></div>
+               </li>
             </div>
         </div>
     `,
@@ -262,7 +267,8 @@ Vue.component('createcard',{
     <div id="openModal" class="modal">
        <div class="modal-body">    
        <div class="form">
-         <h2>Создание задачи <a href="#close" title="Close" class="close">×</a></h2>
+       <a href="#close" title="Close" class="close">&#10006;</a>
+         <h2>Создание задачи</h2>
         <form @submit.prevent="onSubmit">
             <label for="title">Заголовок</label>
             <input id="title" v-model="title" type="text" required maxlength="30">

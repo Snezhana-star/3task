@@ -1,5 +1,5 @@
 body{
-    background-color: darkkhaki;}
+    background-color: #d0eda2;}
 body>div>h1{
     text-align: center;
  }
@@ -32,18 +32,19 @@ a{
     width: 320px;
     background-color: white;
     border-radius: 20px;
-     height: 700px;
+     height: auto;
      display: flex;
      flex-direction: column;
      align-items: center;
 }
  .col>li{
-     background-color: #accbda;
+     background-color: #a6d7ef;
      border-radius: 20px;
      list-style-type: none;
      padding: 10px 15px;
      width: 250px;
      word-wrap: break-word;
+     margin-bottom: 20px;
  }
  .col>li>p{
      text-align: center;
@@ -68,13 +69,36 @@ a{
  .change{
      display: flex;
      justify-content: space-between;
+     align-items: center;
  }
  .change>a:first-child{
      color: red;
  }
- .change>a:last-child{
+ .change>a:nth-child(2){
      color: yellow;
  }
+.change>a:last-child{
+    color: green;
+}
+.change1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.change1>a:first-child, .change2>a:nth-child(2){
+    color: yellow;
+}
+.change1>a:last-child{
+    color: green;
+}
+.change2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.change2>a:first-child, .change2>a:last-child{
+    color: green;
+}
 .modal {
     position: fixed;
     top: 0;
@@ -125,4 +149,18 @@ a{
 .column{
     display: flex;
     justify-content: space-around;
+}
+.tasks1{
+    color:green;
+    font-weight: bold;
+}
+.tasks2{
+    color:red;
+    font-weight: bold;
+}
+.close{
+    text-decoration: none;
+    position: relative;
+    left: 130px;
+    color: black;
 }
