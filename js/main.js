@@ -6,10 +6,10 @@ Vue.component('cols', {
     <div id="cols">
         <createcard></createcard>
         <div>
-            <col1></col1>
-            <col2></col2>
-            <col3></col3>
-            <col4></col4>
+            <col1 :column1="column1" ></col1>
+            <col2 :column2="column2"></col2>
+            <col3 :column3="column3"></col3>
+            <col4 :column4="column4"></col4>
         </div>
     </div>
 `,
@@ -111,7 +111,7 @@ Vue.component('col3', {
                         </form>
                     </li>
                 </ul>
-                <a @click="card.transfer = true">Предыдущая колонка</a>  | <a @click="nextcol(card)">Следующая колонка</a>
+                <a @click="card.transfer = true">Предыдущая колонка</a>  | <a @click="nextcol(card)">Следующая колонка</a></li>
             </div>
         </div>
     `,
@@ -168,7 +168,7 @@ Vue.component('col2', {
                         </form>
                     </li>
                 </ul>
-                <a @click="nextcol(card)">Следующая колонка</a>
+                <a @click="nextcol(card)">Следующая колонка</a></li>
             </div>
         </div>
     `,
@@ -219,7 +219,7 @@ Vue.component('col1', {
                         </form>
                     </li>
                 </ul>
-<!--                <a @click="nextcolumn(card)">Следующая колонка</a>--></li>
+               <a @click="nextcol(card)">Следующая колонка</a></li>
             </div>
         </div>
     `,
@@ -238,12 +238,12 @@ Vue.component('col1', {
         }
     },
     methods: {
-        // nextcolumn(card){
-        //     this.column1.splice(this.column1.indexOf(card),1)
-        //     eventBus.$emit('addColumn2', card)
-        // },
-        deleteCard(card){
+        nextcol(card){
             this.column1.splice(this.column1.indexOf(card),1)
+            eventBus.$emit('addColumn2', card)
+        },
+        deleteCard(card) {
+            this.column1.splice(this.column1.indexOf(card), 1)
         },
         updateCard(card){
             card.editB = false
@@ -299,11 +299,12 @@ Vue.component('createcard',{
                 current: true,
                 
             }
-            eventBus.$emit('card-submitted', card)
+            eventBus.$emit('addColumn1', card)
             this.title = null
             this.description = null
             this.date = null
             this.finishdate = null
+            console.log(card)
         },
     }
 })
