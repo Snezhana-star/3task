@@ -110,7 +110,7 @@ Vue.component('col3', {
                     <li class="tasks"><b>Задача: </b>{{card.description}}</li>
                     <li class="tasks"><b>Дата создания:</b>{{ card.date }}</li>
                     <li class="tasks"><b>Дэдлайн:</b> {{card.finishdate}}</li>
-                    <li class="tasks" v-if="card.reason != null"><b>Причина возврата:</b>{{ card.reason }}</li>
+                    <li class="tasks" v-if="card.reason != null" v-for="t in card.reason"><b>Причина возврата:</b>{{ t }}</li>
                     <li class="tasks" v-if="card.edit != null"><b>Последнее изменение:</b> {{ card.edit}}</li>
                     <li class="tasks" v-if="card.editB">
                         <form @submit.prevent="updateCard(card)">
@@ -128,7 +128,7 @@ Vue.component('col3', {
                     <li class="tasks" v-if="card.transfer">
                         <form @submit.prevent="lastcol(card)">
                             <p><b>Причина возврата:</b>
-                                <input type="text" v-model="card.reason">
+                                <input type="text" v-model="reason">
                             </p>
                             <p>
                                 <input type="submit" value="OK">
@@ -158,13 +158,20 @@ Vue.component('col3', {
         lastcol(card) {
             card.transfer = false
             this.column3.splice(this.column3.indexOf(card), 1)
+            card.reason.push(this.reason)
             eventBus.$emit('addColumn2', card)
+            this.reason=''
         },
         updateCard(card){
             card.edit = new Date().toLocaleString()
             card.editB = false
             this.column3.push(card)
             this.column3.splice(this.column3.indexOf(card), 1)
+        }
+    },
+    data(){
+        return{
+            reason:[],
         }
     }
 })
@@ -179,7 +186,7 @@ Vue.component('col2', {
                     <li><b>Задача:</b> {{card.description}}</li>
                     <li><b>Дата создания:</b> {{ card.date }}</li>
                     <li><b>Дэдлайн:</b> {{card.finishdate}}</li>
-                    <li v-if="card.reason != null"><b>Причина возврата:</b>{{ card.reason }}</li>
+                    <li v-if="card.reason != null" v-for="t in card.reason"><b>Причина возврата:</b>{{t}}</li>
                     <li v-if="card.edit != null"><b>Последнее изменение:</b> {{ card.edit}}</li>
                     <li v-if="card.editB">
                         <form @submit.prevent="updateCard(card)">
@@ -196,10 +203,10 @@ Vue.component('col2', {
                     </li>
                 </ul>
                 <div class="change1">
-                <a @click="card.editB = true" >&#9998;</a> <br>
-                <a @click="nextcol(card)">&#9658;</a></li>
+                    <a @click="card.editB = true" >&#9998;</a> <br>
+                    <a @click="nextcol(card)">&#9658;</a>
                 </div>
-            </div>
+                </li>
         </div>
     `,
     props: {
@@ -315,6 +322,7 @@ Vue.component('createcard',{
             description: null,
             date: null,
             finishdate: null,
+            reason: [],
         }
     },
     methods:{
@@ -326,7 +334,7 @@ Vue.component('createcard',{
                 finishdate: this.finishdate,
                 edit: null,
                 editB:null,
-                reason: null,
+                reason: [],
                 transfer: false,
                 comdate: null,
                 current: true,

@@ -29,7 +29,7 @@ a{
    width: 280px;
  }
  .col{
-    width: 320px;
+    width: 400px;
     background-color: white;
     border-radius: 20px;
      height: auto;
@@ -37,12 +37,15 @@ a{
      flex-direction: column;
      align-items: center;
 }
+.col>h2{
+    text-align: center;
+}
  .col>li{
      background-color: #a6d7ef;
      border-radius: 20px;
      list-style-type: none;
      padding: 10px 15px;
-     width: 250px;
+     width: 300px;
      word-wrap: break-word;
      margin-bottom: 20px;
  }
