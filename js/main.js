@@ -76,7 +76,7 @@ Vue.component('col4', {
     template: `
         <div class="col">
             <h2>Выполненные задачи</h2>
-            <li v-for="card in column4">
+            <li v-for="card in column4" :class="{color1:poleF(card)==1, color2:poleF(card)==2, color3:poleF(card)==3}">
                 <p>{{card.title}}</p>
                 <ul>
                     <li><b>Задача:</b> {{card.description}}</li>
@@ -98,6 +98,21 @@ Vue.component('col4', {
             type: Object
         }
     },
+    methods:{
+        poleF(card){
+            let polef = 0
+            if(card.pole === "backend-разработчик"){
+                polef=1
+            }
+            else if (card.pole === "frontend-разработчик"){
+                polef=2
+            }
+            else polef=3
+        
+            return polef;
+        
+        }
+    }
 })
 
 
@@ -105,7 +120,7 @@ Vue.component('col3', {
     template: `
         <div class="col"> 
             <h2>Тестирование</h2>
-            <li v-for="card in column3" >
+            <li v-for="card in column3" :class="{color1:poleF(card)==1, color2:poleF(card)==2, color3:poleF(card)==3}">
                 <p>{{card.title}}</p>
                 <ul>
                     <li class="tasks"><b>Задача: </b>{{card.description}}</li>
@@ -169,6 +184,19 @@ Vue.component('col3', {
             card.editB = false
             this.column3.push(card)
             this.column3.splice(this.column3.indexOf(card), 1)
+        },
+        poleF(card){
+            let polef = 0
+            if(card.pole === "backend-разработчик"){
+                polef=1
+            }
+            else if (card.pole === "frontend-разработчик"){
+                polef=2
+            }
+            else polef=3
+        
+            return polef;
+        
         }
     },
     data(){
@@ -182,7 +210,7 @@ Vue.component('col2', {
     template: `
         <div class="col">
             <h2>Задачи в работе</h2>
-            <li v-for="card in column2">
+            <li v-for="card in column2" :class="{color1:poleF(card)==1, color2:poleF(card)==2, color3:poleF(card)==3}">
                 <p>{{card.title}}</p>
                 <ul>
                     <li><b>Задача:</b> {{card.description}}</li>
@@ -230,6 +258,19 @@ Vue.component('col2', {
             card.editB = false
             this.column2.push(card)
             this.column2.splice(this.column2.indexOf(card), 1)
+        },
+        poleF(card){
+            let polef = 0
+            if(card.pole === "backend-разработчик"){
+                polef=1
+            }
+            else if (card.pole === "frontend-разработчик"){
+                polef=2
+            }
+            else polef=3
+        
+            return polef;
+        
         }
     }
 })
@@ -238,7 +279,7 @@ Vue.component('col1', {
     template: `
         <div class="col">
             <h2>Запланированные задачи</h2>
-            <li v-for="card in column1">
+            <li v-for="card in column1" :class="{color1:poleF(card)==1, color2:poleF(card)==2, color3:poleF(card)==3}">
                 
                 <p>{{card.title}}</p>
                 <ul>
@@ -291,6 +332,19 @@ Vue.component('col1', {
             this.column1.push(card)
             this.column1.splice(this.column1.indexOf(card), 1)
             card.edit = new Date().toLocaleString()
+        },
+        poleF(card){
+            let polef = 0
+            if(card.pole === "backend-разработчик"){
+                polef=1
+            }
+            else if (card.pole === "frontend-разработчик"){
+                polef=2
+            }
+            else polef=3
+        
+            return polef;
+        
         }
     },
 })

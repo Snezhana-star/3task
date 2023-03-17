@@ -19,7 +19,7 @@ a{
 .form>form{
     padding: 0px 10px;
 }
-.form>form>input{
+.form>form>input, .form>form>select{
     margin: 0px 0px 20px 0px;
     width: 280px;
 }
@@ -41,7 +41,7 @@ a{
     text-align: center;
 }
  .col>li{
-     background-color: #a6d7ef;
+     
      border-radius: 20px;
      list-style-type: none;
      padding: 10px 15px;
@@ -49,6 +49,17 @@ a{
      word-wrap: break-word;
      margin-bottom: 20px;
  }
+ .color1{
+    background-color: #a6d7ef;
+ }
+ .color2{
+    background-color: #efa6d1;
+ }
+ .color3{
+    background-color: #efc7a6;
+ }
+
+ 
  .col>li>p{
      text-align: center;
      font-weight: bold;
