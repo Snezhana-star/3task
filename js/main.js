@@ -80,6 +80,7 @@ Vue.component('col4', {
                 <p>{{card.title}}</p>
                 <ul>
                     <li><b>Задача:</b> {{card.description}}</li>
+                    <li ><b>Роль:</b> {{ card.pole }}</li>
                     <li><b>Дата создания:</b>{{ card.date }}</li>
                     <li><b>Дэдлайн:</b> {{card.finishdate}}</li>
                     
@@ -108,6 +109,7 @@ Vue.component('col3', {
                 <p>{{card.title}}</p>
                 <ul>
                     <li class="tasks"><b>Задача: </b>{{card.description}}</li>
+                    <li ><b>Роль:</b> {{ card.pole }}</li>
                     <li class="tasks"><b>Дата создания:</b>{{ card.date }}</li>
                     <li class="tasks"><b>Дэдлайн:</b> {{card.finishdate}}</li>
                     <li class="tasks" v-if="card.reason != null" v-for="t in card.reason"><b>Причина возврата:</b>{{ t }}</li>
@@ -184,6 +186,7 @@ Vue.component('col2', {
                 <p>{{card.title}}</p>
                 <ul>
                     <li><b>Задача:</b> {{card.description}}</li>
+                    <li ><b>Роль:</b> {{ card.pole }}</li>
                     <li><b>Дата создания:</b> {{ card.date }}</li>
                     <li><b>Дэдлайн:</b> {{card.finishdate}}</li>
                     <li v-if="card.reason != null" v-for="t in card.reason"><b>Причина возврата:</b>{{t}}</li>
@@ -239,7 +242,8 @@ Vue.component('col1', {
                 
                 <p>{{card.title}}</p>
                 <ul>
-                    <p><b>Задание:</b> {{card.description}}</p>
+                    <p><b>Задача:</b> {{card.description}}</p>
+                    <li ><b>Роль:</b> {{ card.pole }}</li>
                     <li ><b>Дата создания:</b> {{ card.date }}</li>
                     <li ><b>Дэдлайн:</b> {{card.finishdate}}</li>
                     <li v-if="card.edit != null"><b>Последнее изменение:</b>{{ card.edit}}</li>
@@ -272,9 +276,7 @@ Vue.component('col1', {
         card: {
             type: Object
         },
-        errors: {
-            type: Array
-        }
+
     },
     methods: {
         nextcol(card){
@@ -296,11 +298,11 @@ Vue.component('col1', {
 Vue.component('createcard',{
     template:`
 <section>
-   <div class="btn"><a href="#openModal" class="btnModal">Создать задачу</a></div> 
-    <div id="openModal" class="modal">
+   <div class="btn"><a href="#openModal" class="btnModal" @click="show=true">Создать задачу</a></div> 
+    <div id="openModal" class="modal" v-if="show">
        <div class="modal-body">    
        <div class="form">
-       <a href="#close" title="Close" class="close">&#10006;</a>
+       <a href="#close" title="Close" @click="close" class="close">&#10006;</a>
          <h2>Создание задачи</h2>
         <form @submit.prevent="onSubmit">
             <label for="title">Заголовок</label>
@@ -309,6 +311,12 @@ Vue.component('createcard',{
             <textarea id="description" v-model="description" rows="5" columns="30" required maxlength="150"></textarea><br>
             <label for="finishdate">Дэдлайн: </label>
             <input required  type="date" id="finishdate" name="finishdate" v-model="finishdate" placeholder="дд.мм.гггг"/>
+            <label for="pole">Роль: </label><br>
+            <select id="pole" v-model="pole">
+                <option>backend-разработчик</option>
+                <option>frontend-разработчик</option>
+                <option>Тестировщик</option>
+            </select><br>
             <button type="submit">Создать задачу</button>
         </form>
     </div>
@@ -323,6 +331,9 @@ Vue.component('createcard',{
             date: null,
             finishdate: null,
             reason: [],
+            pole: null,
+            show: false,
+            
         }
     },
     methods:{
@@ -332,6 +343,7 @@ Vue.component('createcard',{
                 description: this.description,
                 date: new Date().toLocaleDateString().split('.').reverse().join('-'),
                 finishdate: this.finishdate,
+                pole: this.pole,
                 edit: null,
                 editB:null,
                 reason: [],
@@ -345,8 +357,12 @@ Vue.component('createcard',{
             this.description = null
             this.date = null
             this.finishdate = null
-            console.log(card)
+            this.show = false
+            this.pole = null
         },
+        close(){
+            this.show = false;
+        }
     }
 })
 
